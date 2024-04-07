@@ -18,23 +18,6 @@ def get_video_capture(src: Union[int, str] = 0) -> cv2.VideoCapture:
     return cap
 
 
-def draw_rectangle(result):
-    for info in result:
-        boxes = info.boxes
-        for box in boxes:
-            confidence = box.conf[0]
-            confidence = math.ceil(confidence * 100)
-            print(box)
-            classname = int(box.cls[0])
-            if confidence > 10:
-                x1, y1, x2, y2 = box.xyxy[0]
-                x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-                cv2.rectangle(frame,(x1, y1),(x2, y2), (0, 0, 255), 3)
-                cvzone.putTextRect(frame, f"{classnames[classname].upper()} {confidence}%",
-                                   [x1 + 8, y1 + 100],
-                                   scale=2,thickness=2)
-
-
 model = YOLO(model_path)
 
 classnames = ["Fire", "Smoke"]
@@ -52,6 +35,21 @@ while (cap.isOpened()):
     frame = cv2.resize(frame, FRAME_SIZE)
     result = model(frame,stream=True)
     font = cv2.FONT_HERSHEY_DUPLEX
+
+    for info in result:
+        boxes = info.boxes
+        for box in boxes:
+            confidence = box.conf[0]
+            confidence = math.ceil(confidence * 100)
+            print(box)
+            classname = int(box.cls[0])
+            if confidence > 10:
+                x1, y1, x2, y2 = box.xyxy[0]
+                x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                cv2.rectangle(frame,(x1, y1),(x2, y2), (0, 0, 255), 3)
+                cvzone.putTextRect(frame, f"{classnames[classname].upper()} {confidence}%",
+                                   [x1 + 8, y1 + 100],
+                                   scale=2,thickness=2)
 
     draw_rectangle(result)
 
