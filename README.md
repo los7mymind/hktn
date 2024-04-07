@@ -9,12 +9,12 @@
 ```python
 from ultralytics import YOLO
 
-model = YOLO('/kaggle/working/runs/detect/yolov8n_custom4/weights/last.pt')
+model = YOLO(<model path>)
 
 results = model.train(
-   data='/kaggle/input/mainmainmain/1/data.yaml',
+   data='<data yaml path>',
    imgsz=640,
    epochs=50,
-   batch=32,
-   name='yolov8n_custom')
+   batch=32, # изначально подавали по 8, но потыкались и 32 оказался продуктивнее всех
+   name='hktn')
 ```
