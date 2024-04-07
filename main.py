@@ -8,8 +8,6 @@ from typing import Union
 
 
 FRAME_SIZE = (1280, 720)
-model_path = "./models/best148.pt"
-video_path = "./test_content/vids/fire1.mp4"
 
 
 def get_video_capture(src: Union[int, str] = 0) -> cv2.VideoCapture:
@@ -18,14 +16,18 @@ def get_video_capture(src: Union[int, str] = 0) -> cv2.VideoCapture:
     return cap
 
 
-model = YOLO(model_path)
+model_path = "./models/best148.pt"
+video_path = "./test_content/vids/fire1.mp4"
 
-classnames = ["Fire", "Smoke"]
+model = YOLO(model_path)
 
 cap = get_video_capture(video_path)
 
+classnames = ["Fire", "Smoke"]
+
 prev_frame_time = 0
 new_frame_time = 0
+
 while (cap.isOpened()):
     ret, frame = cap.read()
 
@@ -62,7 +64,6 @@ while (cap.isOpened()):
 
     cv2.putText(frame, fps, (7, 70), font, 3, (100, 255, 0), 3, cv2.LINE_AA)
     cv2.imshow("frame", frame)
-
 
     if cv2.waitKey(1) & 0xFF == ord("q"): 
         break
