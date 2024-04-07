@@ -1,5 +1,7 @@
 # hktn
 
+в качестве виртуальной машины использовали мощности Kaggle. для сбора аналитики использовали API Weights & Basis (wandb.ai).
+
 ## Kaggle
 
 ```python
